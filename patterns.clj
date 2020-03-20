@@ -1,3 +1,4 @@
+; Plus plus
 (defn ++ [x] (+ x 1))
 (defn -- [x] (- x 1))
 
@@ -6,11 +7,11 @@
   x
   (+ 1 (plus x (-- y)))))
 
-(print (plus 10 11))
+(println (plus 10 11))
 
 (defn mult [x, y]
  (if (= y 1)
   x
   (+ x (mult x (-- y)))))
 
-(print (mult 10 11))
+(println (mult 10 11))
