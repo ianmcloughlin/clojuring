@@ -1,84 +1,66 @@
 ; https://dzone.com/articles/lambda-calculus-in-clojure-part-1
 
 
-(ns testing)
+(ns lambda)
 (use 'clojure.test)
 
-; Identity
-(def id (fn [x] x))
-(println (id 5))
-
-; Zero
-(def zero (fn [f] (fn [x] x)))
-
-; Successor
-(def succ (fn [n] (fn [f] (fn [x] f (n f x)))))
-
-; One
-(println zero)
-(println (succ zero))
-(println (succ (succ zero)))
 
 (defmacro λ
   [args & body]
   `(fn [~args] ~@body))
 
-; true = λa.λb.a
 
+; Identity
+(def id (λ x x))
+(println (id 5))
+
+; Zero
+(def zero (λ f (λ x x)))
+
+; Successor
+(def succ (λ n (λ f (λ x f (n f x)))))
+
+; Numbers
+(println zero)
+(println (succ zero))
+(println (succ (succ zero)))
+
+; True
 (def T
-
   (λ a (λ b a)))
 
-; false = λa.λb.b
-
+; False
 (def F
-
   (λ a (λ b b)))
 
-
-  ; and = λp.λq.p q p
-
+; And
 (def And
-
   (λ p (λ q ((p q) p))))
 
-; or = λp.λq.p p q
-
+; Or
 (def Or
-
   (λ p (λ q ((p p) q))))
 
-; not = λp.λa.λb.p false true
-
+; Not
 (def Not
-
   (λ p ((p F) T)))
 
-; xor = λa.λb.a (not b) b
-
+; Xor
 (def Xor
-
   (λ a (λ b ((a (Not b)) b))))
 
-; if = λp.λa.λb.p a b
-
+; If
 (def If
-
   (λ p (λ a (λ b ((p a) b)))))
 
-(println 'λ)
-
 (def toBoolean
-
   (λ f ((f true) false)))
 
 
-  ; true AND true
-
+; true AND true
 (toBoolean ((And T) T))
 
 ; true AND false
-
 (toBoolean ((And T) F))
 
 
@@ -122,8 +104,6 @@
 
              true))))
 
-(ns lambda-calculus.numerals
-  (:require [lambda-calculus.lambda :refer :all]))
 
 (def zero
   (λ f (λ x x)))
